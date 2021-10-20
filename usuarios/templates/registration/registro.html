@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+{% load static %}
+
+{% block container %}
+
+  <div class="main">
+    <section class="module">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <h4 class="font-alt">Registro</h4>
+            <hr class="divider-w mb-10">
+            <form class="form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-block btn-round btn-b">Registrarme</button>
+            </form>
+            <div class="col-sm-4"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
+{% endblock %}

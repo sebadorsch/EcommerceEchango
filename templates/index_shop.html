@@ -1,0 +1,172 @@
+{% extends "index.html" %}
+{% load static thumbnail %}
+
+{% block container %}
+
+  <section class="home-section home-fade home-full-height" id="home">
+    <div class="hero-slider">
+      <ul class="slides">
+        <li class="bg-dark-30 bg-dark shop-page-header" style="background-image:url({% static  "img/fashion.jpg" %});">
+          <div class="titan-caption">
+            <div class="caption-content">
+              <div class="font-alt mb-30 titan-title-size-1">Bienvenidos a E-Chango</div>
+              <div class="font-alt mb-30 titan-title-size-4"> Primavera-Verano 2021</div>
+              <div class="font-alt mb-40 titan-title-size-1">La mejor opción on-line</div><a class="section-scroll btn btn-border-w btn-round" href="{% url 'shop_product_col_3' %}">Ver Productos</a>
+            </div>
+          </div>
+        </li>
+        <li class="bg-dark-30 bg-dark shop-page-header" style="background-image:url({% static  "img/fashion.jpg" %});">
+          <div class="titan-caption">
+            <div class="caption-content">
+              <div class="font-alt mb-30 titan-title-size-1">Esto es E-Chango</div>
+              <div class="font-alt mb-40 titan-title-size-4">Productos Exlusivos</div><a class="section-scroll btn btn-border-w btn-round" href="{% url 'shop_product_col_3' %}">Ver Productos</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <div class="main">
+    <section class="module-small">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+            <h2 class="module-title font-alt">Lo último en Ropa</h2>
+          </div>
+        </div>
+        <div class="row multi-columns-row">
+          {% if productos %}
+            {% for producto in productos %}
+                <div class="col-sm-6 col-md-3 col-lg-3">
+                    <div class="shop-item">
+                        <div class="shop-item-image">
+                            {% thumbnail producto.imagen_principal "665x750" crop="center" quality=95 as im %}
+                                <img src="{{ im.url }}" alt="Accessories Pack"/>
+                            {% endthumbnail %}
+                        </div>
+                        <div class="shop-item-detail"><a href="{{ producto.get_absolute_url }}" class="btn btn-round btn-b"><span class="icon-basket">Agregar al carrito</span></a></div>
+                        <h4 class="shop-item-title font-alt"><a href="{{ producto.get_absolute_url }}">{{ producto.titulo }}</a></h4>${{ producto.precio }}
+                    </div>
+                </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div class="row mt-30">
+          <div class="col-sm-12 align-center"><a class="btn btn-b btn-round" href="{% url 'shop_product_col_3' %}">Ver Todos Los Productos</a></div>
+        </div>
+      </div>
+    </section>
+    <section class="module module-video bg-dark-30" data-background="">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+            <h2 class="module-title font-alt mb-0">MANTENTE SIEMPRE A LA MODA!</h2>
+          </div>
+        </div>
+      </div>
+      <div class="video-player" data-property="{videoURL:'https://www.youtube.com/watch?v=EMy5krGcoOU', containment:'.module-video', startAt:0, mute:true, autoPlay:true, loop:true, opacity:1, showControls:false, showYTLogo:false, vol:25}"></div>
+    </section>
+    <section class="module-small">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+            <h2 class="module-title font-alt">Productos Exclusivos</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="owl-carousel text-center" data-items="5" data-pagination="false" data-navigation="false">
+            {% for producto in productos|slice:"5" %}
+                <div class="owl-item">
+              <div class="col-sm-12">
+                {% thumbnail producto.imagen_principal "500x346" crop="center" quality=95 as im %}
+                    <div class="ex-product"><a href="{{ producto.get_absolute_url }}"><img src="{{ im.url }}" alt="{{ prducto.titulo }}"/></a>
+                {% endthumbnail %}
+                  <h4 class="shop-item-title font-alt"><a href="#">{{ producto.titulo }}</a></h4>${{ producto.precio }}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="module module-video bg-dark-30" data-background="">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+            <h2 class="module-title font-alt mb-0">Contáctanos!</h2>
+          </div>
+        </div>
+      </div>
+      <div class="video-player" data-property="{videoURL:'https://www.youtube.com/watch?v=EMy5krGcoOU', containment:'.module-video', startAt:0, mute:true, autoPlay:true, loop:true, opacity:1, showControls:false, showYTLogo:false, vol:25}"></div>
+    </section>
+    <section class="module" id="contact">
+      <div class="container" style="margin: 50px auto;">
+        <div class="row" style="padding: 10px 0 0 0">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14428.076510760075!2d-60.641185258000895!3d-32.94823445248717!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95b7ab1dc9b6d36f%3A0x97b9e9584d94d851!2sMonumento%20Hist%C3%B3rico%20Nacional%20a%20la%20Bandera!5e0!3m2!1ses!2sar!4v1633119060562!5m2!1ses!2sar" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        {% if not nombre %}
+        <div class="row" style="padding: 50px 0 30px 0">
+          <div class="col-sm-8">
+            <form method="post">
+              {% csrf_token %}
+              <div class="form-group">
+                <label class="sr-only" for="nombre">nombre</label>
+                {{ contacto_form.nombre }}
+              </div>
+              <div class="form-group">
+                <label class="sr-only" for="email">Email</label>
+                {{ contacto_form.email }}
+              </div>
+              <div class="form-group">
+                {{ contacto_form.texto }}
+              </div>
+              <div class="text-center">
+                <button class="btn btn-block btn-round btn-d" id="cfsubmit" type="submit">Submit</button>
+              </div>
+            </form>
+            <div class="ajax-response font-alt" id="contactFormResponse"></div>
+          </div>
+          <div class="col-sm-4">
+            <div class="alt-features-item mt-0">
+              <div class="alt-features-icon"><span class="icon-megaphone"></span></div>
+              <h3 class="alt-features-title font-alt">Dónde encontrarnos</h3>E-Chango<br/>23 Greate Street<br/>Los Angeles, 12345 LS
+            </div>
+            <div class="alt-features-item mt-xs-60">
+              <div class="alt-features-icon"><span class="icon-map"></span></div>
+              <h3 class="alt-features-title font-alt">Envíanos un mensaje</h3>Email: contacto@echango.com<br/>Phone: +1 234 567 89 10
+            </div>
+          </div>
+        </div>
+        {% else %}
+          <div class="row" style="text-align: center; margin-top: 30px">
+            <div class="alert alert-success" role="alert">
+              <h4 style="margin:20px"> Gracias por contactarte con nosotros, te contestaremos en la brevedad.</h4>
+            </div>
+
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+  <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
+
+{% endblock %}
+
+<!--
+JavaScripts
+=============================================
+-->
+<script src="{% static 'assets/lib/jquery/dist/jquery.js' %}"></script>
+<script src="{% static 'assets/lib/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/lib/wow/dist/wow.js' %}"></script>
+<script src="{% static 'assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js' %}"></script>
+<script src="{% static 'assets/lib/isotope/dist/isotope.pkgd.js' %}"></script>
+<script src="{% static 'assets/lib/imagesloaded/imagesloaded.pkgd.js' %}"></script>
+<script src="{% static 'assets/lib/flexslider/jquery.flexslider.js' %}"></script>
+<script src="{% static 'assets/lib/owl.carousel/dist/owl.carousel.min.js' %}"></script>
+<script src="{% static 'assets/lib/smoothscroll.js' %}"></script>
+<script src="{% static 'assets/lib/magnific-popup/dist/jquery.magnific-popup.js' %}"></script>
+<script src="{% static 'assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>

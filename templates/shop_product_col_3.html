@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+
+{% load static thumbnail%}
+
+{% block container %}
+  <div class="main">
+    <section class="module bg-dark-60 shop-page-header" data-background="{% static 'img/fashion2.jpg' %}">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-6 col-sm-offset-3">
+            <h2 class="module-title font-alt">Todos Nuestros Productos!</h2>
+            <div class="module-subtitle font-serif">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="module-small">
+      <div class="container">
+        <div class="row">
+          <form method="get">
+            {% csrf_token %}
+              <div class="col-sm-3 mb-sm-20">
+                {{ form.orden }}
+              </div>
+              <div class="col-sm-3 mb-sm-20">
+                {{ form.genero }}
+              </div>
+              <div class="col-sm-3 mb-sm-20">
+                {{ form.categoria }}
+              </div>
+              <div class="col-sm-3">
+                <button class="btn btn-block btn-round btn-g" type="submit">Apply</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <hr class="divider-w">
+    <section class="module-small">
+      <div class="container">
+        <div class="row multi-columns-row justify-content-center">
+          {% if producto %}
+            {% for producto in producto %}
+              <div class="col-sm-6 col-md-4 col-lg-4">
+                <div class="shop-item">
+                  <div class="shop-item-image">
+                    {% thumbnail producto.imagen_principal "665x750" crop="center" quality=95 as im %}
+                      <img src="{{ im.url }}" alt="Accessories Pack"/>
+                      <div class="shop-item-detail"><a class="btn btn-round btn-b" href="{{ producto.get_absolute_url }}"><span class="icon-basket">Agregar al carrito</span></a></div>
+                    {% endthumbnail %}
+                  </div>
+                  <h4 class="shop-item-title font-alt"><a href="{{ producto.get_absolute_url }}">{{ producto.titulo }}</a></h4>${{ producto.precio }}
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="pagination font-alt"><a href="#"><i class="fa fa-angle-left"></i></a><a class="active" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#"><i class="fa fa-angle-right"></i></a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}
