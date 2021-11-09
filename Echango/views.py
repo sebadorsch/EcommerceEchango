@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Producto, Categoria, ProductoTalle, Comentario, Carrito
+from .models import Producto, Categoria, ProductoTalle, Comentario, LineaProducto
 from .forms import ComentarioForm, FiltroForm, ContactoForm, ProductoCarritoForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -49,7 +49,14 @@ def shop_product_col_3(request, template_name="shop_product_col_3.html"):
         genero = request.GET.get('genero')
         categoria = request.GET.get('categoria')
         if orden:
-            pass
+            if orden == 'MR':
+                producto = producto.filter().order_by('fecha_publicacion')
+            if orden == 'MA':
+                producto = producto.filter().order_by('-fecha_publicacion')
+            if orden == 'MaP':
+                producto = producto.filter().order_by('-precio')
+            if orden == 'MeP':
+                producto = producto.filter().order_by('precio')
         if genero:
             producto = producto.filter(genero=genero)
         if categoria:
@@ -106,18 +113,15 @@ def shop_single_product(request, producto_id, template_name="shop_single_product
     return render(request, template_name, args)
 
 
-def shop_checkout(request, template_name='shop_checkout.html'):
-    args = {}
-    productos = (Producto.objects.all().filter(publicado=True))
-    args.update({'productos': productos})
-    return render(request, template_name, args)
-
-
 def login_register(request, template_name):
     return render(request, template_name)
 
 
 def carrito(request, template_name='shop_checkout.html'):
-    return render(request, template_name)
+    args = {}
+    productos = (Producto.objects.all().filter(publicado=True))
+    #lineas_productos = (LineaProducto.objects.all().filter(()))
+    args.update({'productos': productos})
+    return render(request, template_name, args)
 
 

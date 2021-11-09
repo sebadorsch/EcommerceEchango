@@ -4,7 +4,7 @@ from django.forms import TextInput, Textarea
 
 
 class ProductoCarritoForm(forms.ModelForm):
-    cantidad = forms.IntegerField()
+    cantidad = forms.IntegerField(min_value=1)
 
     class Meta:
         model = LineaProducto
@@ -13,7 +13,7 @@ class ProductoCarritoForm(forms.ModelForm):
         widgets = {
             'carrito': forms.HiddenInput(),
             'producto': forms.HiddenInput(),
-            'cantidad': forms.IntegerField(min_value=1),
+            'cantidad': forms.IntegerField(),
         }
 
 
