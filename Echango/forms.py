@@ -1,20 +1,24 @@
 from django import forms
-from .models import Comentario, Producto, Talle, LineaProducto
+from .models import Comentario, Producto, Talle, LineaProducto, ProductoTalle
 from django.forms import TextInput, Textarea
 
 
-class ProductoCarritoForm(forms.ModelForm):
-    cantidad = forms.IntegerField(min_value=1)
+class LineaProductoForm(forms.ModelForm):
 
     class Meta:
         model = LineaProducto
         fields = ['carrito', 'producto_talle', 'cantidad']
 
         widgets = {
-            'carrito': forms.HiddenInput(),
-            'producto': forms.HiddenInput(),
-            'cantidad': forms.IntegerField(),
+            "carrito": forms.HiddenInput,
+            "producto_talle": forms.Select(attrs={"class": 'form-control'}),
+            "cantidad": forms.TextInput(attrs={"class": 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        producto = kwargs.pop('producto')
+        super(LineaProductoForm, self).__init__(*args, **kwargs)
+        self.fields['producto_talle'].queryset = ProductoTalle.objects.filter(producto=producto)
 
 
 class ComentarioForm(forms.ModelForm):
@@ -41,14 +45,13 @@ ORDEN_CHOICES = [
 
 
 class FiltroForm(forms.ModelForm):
-    orden = forms.ChoiceField(choices=ORDEN_CHOICES)
+    orden = forms.ChoiceField(choices=ORDEN_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Producto
         fields = ['orden', 'genero', 'categoria']
 
         widgets = {
-            'orden': forms.Select(attrs={'class': 'form-control'}),
             'genero': forms.Select(attrs={'class': 'form-control'}),
             'categoria': forms.Select(attrs={'class': 'form-control'}),
         }

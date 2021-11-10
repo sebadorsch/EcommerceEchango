@@ -19,15 +19,13 @@
               <tbody>
                 <tr>
                   <th class="hidden-xs">Item</th>
-                  <th>Description</th>
-                  <th class="hidden-xs">Price</th>
-                  <th>Quantity</th>
+                  <th>Descripción</th>
+                  <th class="hidden-xs">Precio</th>
+                  <th>Cantidad</th>
                   <th>Total</th>
-                  <th>Remove</th>
+                  <th>Quitar</th>
                 </tr>
-
-                {% for  %}
-                {% endfor %}
+{% comment %}
                 <tr>
                   <td class="hidden-xs"><a href="#"><img src="{% static 'assets/images/shop/product-14.jpg' %}" alt="Accessories Pack"/></a></td>
                   <td>
@@ -43,24 +41,24 @@
                     <h5 class="product-title font-alt">£20.00</h5>
                   </td>
                   <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
-                </tr>
-                <tr>
-                  <td class="hidden-xs"><a href="#"><img src="{% static 'assets/images/shop/product-13.jpg' %}" alt="Men’s Casual Pack"/></a></td>
-                  <td>
-                    <h5 class="product-title font-alt">Men’s Casual Pack</h5>
-                  </td>
-                  <td class="hidden-xs">
-                    <h5 class="product-title font-alt">£20.00</h5>
-                  </td>
-                  <td>
-                    <input class="form-control" type="number" name="" value="1" max="50" min="1"/>
-                  </td>
-                  <td>
-                    <h5 class="product-title font-alt">£20.00</h5>
-                  </td>
-                  <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>
-                </tr>
-
+                </tr>{% endcomment %}
+{#                <tr>#}
+{#                  <td class="hidden-xs"><a href="#"><img src="{% static 'assets/images/shop/product-13.jpg' %}" alt="Men’s Casual Pack"/></a></td>#}
+{#                  <td>#}
+{#                    <h5 class="product-title font-alt">Men’s Casual Pack</h5>#}
+{#                  </td>#}
+{#                  <td class="hidden-xs">#}
+{#                    <h5 class="product-title font-alt">£20.00</h5>#}
+{#                  </td>#}
+{#                  <td>#}
+{#                    <input class="form-control" type="number" name="" value="1" max="50" min="1"/>#}
+{#                  </td>#}
+{#                  <td>#}
+{#                    <h5 class="product-title font-alt">£20.00</h5>#}
+{#                  </td>#}
+{#                  <td class="pr-remove"><a href="#" title="Remove"><i class="fa fa-times"></i></a></td>#}
+{#                </tr>#}
+{##}
 
               </tbody>
             </table>
@@ -69,17 +67,17 @@
         <div class="row">
           <div class="col-sm-3">
             <div class="form-group">
-              <input class="form-control" type="text" id="" name="" placeholder="Coupon code"/>
+              <input class="form-control" type="text" id="" name="" placeholder="Agregar Cupón"/>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="form-group">
-              <button class="btn btn-round btn-g" type="submit">Apply</button>
+              <button class="btn btn-round btn-g" type="submit">Aplicar</button>
             </div>
           </div>
           <div class="col-sm-3 col-sm-offset-3">
             <div class="form-group">
-              <button class="btn btn-block btn-round btn-d pull-right" type="submit">Update Cart</button>
+              <button class="btn btn-block btn-round btn-d pull-right" type="submit">Actualizar Carrito</button>
             </div>
           </div>
         </div>
@@ -87,24 +85,24 @@
         <div class="row mt-70">
           <div class="col-sm-5 col-sm-offset-7">
             <div class="shop-Cart-totalbox">
-              <h4 class="font-alt">Cart Totals</h4>
+              <h4 class="font-alt">Total a pagar</h4>
               <table class="table table-striped table-border checkout-table">
                 <tbody>
                   <tr>
-                    <th>Cart Subtotal :</th>
-                    <td>£40.00</td>
+                    <th>Subtotal :</th>
+                    <td></td>
                   </tr>
                   <tr>
-                    <th>Shipping Total :</th>
-                    <td>£2.00</td>
+                    <th>Cargo de tarjeta :</th>
+                    <td></td>
                   </tr>
                   <tr class="shop-Cart-totalprice">
                     <th>Total :</th>
-                    <td>£42.00</td>
+                    <td></td>
                   </tr>
                 </tbody>
               </table>
-              <button class="btn btn-lg btn-block btn-round btn-d" type="submit">Proceed to Checkout</button>
+              <button class="btn btn-lg btn-block btn-round btn-d" type="submit">Pagar</button>
             </div>
           </div>
         </div>

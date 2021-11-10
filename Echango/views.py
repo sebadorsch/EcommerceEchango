@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Producto, Categoria, ProductoTalle, Comentario, LineaProducto
-from .forms import ComentarioForm, FiltroForm, ContactoForm, ProductoCarritoForm
+from .models import Producto, Categoria, ProductoTalle, Comentario, LineaProducto, Carrito
+from .forms import ComentarioForm, FiltroForm, ContactoForm, LineaProductoForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
+from django.urls import reverse
 
 
 def home(request, template_name="index_shop.html"):
@@ -83,6 +84,7 @@ def shop_product_col_3_categoria(request, categoria, template_name="shop_product
 def shop_single_product(request, producto_id, template_name="shop_single_product.html", ):
     args = {}
 
+    carrito, creado = Carrito.objects.get_or_create(usuario=request.user, activo=True)
     producto = get_object_or_404(Producto, pk=producto_id, publicado=True)
     productos_talle = ProductoTalle.objects.all().filter(producto_id=producto_id)
     productos = (Producto.objects.all().filter(publicado=True)).exclude(id=producto_id)
@@ -91,16 +93,16 @@ def shop_single_product(request, producto_id, template_name="shop_single_product
 
     if request.method == 'POST':
         comentario_form = ComentarioForm(request.POST)
-        carrito_form = ProductoCarritoForm(request.POST)
+        carrito_form = LineaProductoForm(request.POST, producto=producto)
         if comentario_form.is_valid():
             comentario_form.save()
-            return redirect(home)
+            return redirect(reverse('shop_single_product', kwargs={'producto_id': producto.id}))
         elif carrito_form.is_valid():
             carrito_form.save()
-            return redirect(home)
+            return redirect(reverse(carrito))
     else:
         comentario_form = ComentarioForm(initial={'producto': producto})
-        carrito_form = ProductoCarritoForm(initial={'usuario': request.user, 'producto': producto})
+        carrito_form = LineaProductoForm(initial={'carrito': carrito}, producto=producto)
 
     args.update({'producto': producto,
                  'productos': productos,
@@ -119,9 +121,14 @@ def login_register(request, template_name):
 
 def carrito(request, template_name='shop_checkout.html'):
     args = {}
-    productos = (Producto.objects.all().filter(publicado=True))
-    #lineas_productos = (LineaProducto.objects.all().filter(()))
+    productos = Producto.objects.all().filter(publicado=True)
     args.update({'productos': productos})
     return render(request, template_name, args)
 
-
+#
+# def carrito(request, carrito_id, template_name='shop_checkout.html'):
+#     args = {}
+#     productos = Producto.objects.all().filter(publicado=True)
+#     args.update({'productos': productos})
+#     return render(request, template_name, args)
+#

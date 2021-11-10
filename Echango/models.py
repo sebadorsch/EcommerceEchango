@@ -86,7 +86,7 @@ class Carrito(models.Model):
 
 
 class LineaProducto(models.Model):
-    carrito = models.ForeignKey(Carrito, models.CASCADE)
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
     producto_talle = models.ForeignKey(ProductoTalle, models.CASCADE)
     cantidad = models.IntegerField()
 

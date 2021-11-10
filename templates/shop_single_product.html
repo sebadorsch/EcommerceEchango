@@ -59,13 +59,13 @@
             <div class="row mb-20">
                 <form class="form" method="post">
                     {% csrf_token %}
-                    {{ carrito_form.usuario }}
+                    {{ carrito_form.carrito }}
                     {{ carrito_form.producto }}
                     <div class="col-sm-3 mb-sm-20">
                         {{ carrito_form.cantidad }}
                     </div>
                     <div class="col-sm-3 mb-sm-20">
-                        {{ carrito_form.talle }}
+                        {{ carrito_form.producto_talle }}
                     </div>
                     <div class="col-sm-6">
                         <button class="btn btn-lg btn-block btn-round btn-b" id="boton-agregar-carrito">Agregar al carrito</button>
