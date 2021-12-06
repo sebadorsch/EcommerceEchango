@@ -1,12 +1,12 @@
 from django import forms
-from .models import Comentario, Producto, Talle, LineaProducto, ProductoTalle
+from .models import Comentario, Producto, Talle, LineaPedido, ProductoTalle
 from django.forms import TextInput, Textarea
 
 
-class LineaProductoForm(forms.ModelForm):
+class LineaPedidoForm(forms.ModelForm):
 
     class Meta:
-        model = LineaProducto
+        model = LineaPedido
         fields = ['carrito', 'producto_talle', 'cantidad']
 
         widgets = {
@@ -17,7 +17,7 @@ class LineaProductoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         producto = kwargs.pop('producto')
-        super(LineaProductoForm, self).__init__(*args, **kwargs)
+        super(LineaPedidoForm, self).__init__(*args, **kwargs)
         self.fields['producto_talle'].queryset = ProductoTalle.objects.filter(producto=producto)
 
 

@@ -85,7 +85,7 @@ class Carrito(models.Model):
     activo = models.BooleanField(default=True)
 
 
-class LineaProducto(models.Model):
+class LineaPedido(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
     producto_talle = models.ForeignKey(ProductoTalle, models.CASCADE)
     cantidad = models.IntegerField()

@@ -59,13 +59,13 @@
             <div class="row mb-20">
                 <form class="form" method="post">
                     {% csrf_token %}
-                    {{ carrito_form.carrito }}
-                    {{ carrito_form.producto }}
+                    {{ linea_pedido_form.carrito }}
+                    {{ linea_pedido_form.producto }}
                     <div class="col-sm-3 mb-sm-20">
-                        {{ carrito_form.cantidad }}
+                        {{ linea_pedido_form.cantidad }}
                     </div>
                     <div class="col-sm-3 mb-sm-20">
-                        {{ carrito_form.producto_talle }}
+                        {{ linea_pedido_form.producto_talle }}
                     </div>
                     <div class="col-sm-6">
                         <button class="btn btn-lg btn-block btn-round btn-b" id="boton-agregar-carrito">Agregar al carrito</button>
@@ -197,7 +197,7 @@
                     <div class="shop-item">
                         {% thumbnail prod.imagen_principal "665x750" crop="center" quality=95 as im %}
                             <div class="shop-item-image"><img src="{{ im.url }}" alt="Accessories Pack"/>
-                                <div class="shop-item-detail"><a class="btn btn-round btn-b"><span class="icon-basket">Agregar al carrito</span></a></div>
+                                <div class="shop-item-detail"><a class="btn btn-round btn-b" href="{{ prod.get_absolute_url }}"><span class="icon-basket">Agregar al carrito</span></a></div>
                             </div>
                         {% endthumbnail %}
                       <h4 class="shop-item-title font-alt"><a href="{{ prod.get_absolute_url }}">{{ prod.titulo }}</a></h4>${{ prod.precio }}

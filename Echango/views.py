@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Producto, Categoria, ProductoTalle, Comentario, LineaProducto, Carrito
-from .forms import ComentarioForm, FiltroForm, ContactoForm, LineaProductoForm
+from .models import Producto, Categoria, ProductoTalle, Comentario, LineaPedido, Carrito
+from .forms import ComentarioForm, FiltroForm, ContactoForm, LineaPedidoForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
@@ -93,16 +93,16 @@ def shop_single_product(request, producto_id, template_name="shop_single_product
 
     if request.method == 'POST':
         comentario_form = ComentarioForm(request.POST)
-        carrito_form = LineaProductoForm(request.POST, producto=producto)
+        linea_pedido_form = LineaPedidoForm(request.POST, producto=producto)
         if comentario_form.is_valid():
             comentario_form.save()
             return redirect(reverse('shop_single_product', kwargs={'producto_id': producto.id}))
-        elif carrito_form.is_valid():
-            carrito_form.save()
+        elif linea_pedido_form.is_valid():
+            linea_pedido_form.save()
             return redirect(reverse(carrito))
     else:
         comentario_form = ComentarioForm(initial={'producto': producto})
-        carrito_form = LineaProductoForm(initial={'carrito': carrito}, producto=producto)
+        linea_pedido_form = LineaPedidoForm(initial={'carrito': carrito}, producto=producto)
 
     args.update({'producto': producto,
                  'productos': productos,
@@ -110,7 +110,7 @@ def shop_single_product(request, producto_id, template_name="shop_single_product
                  'total_comentarios': total_comentarios,
                  'productos_talle': productos_talle,
                  'comentario_form': comentario_form,
-                 'carrito_form': carrito_form,
+                 'linea_pedido_form': linea_pedido_form,
                  })
     return render(request, template_name, args)
 
