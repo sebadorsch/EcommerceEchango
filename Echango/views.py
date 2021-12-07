@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Producto, Categoria, ProductoTalle, Comentario, LineaPedido, Carrito
 from .forms import ComentarioForm, FiltroForm, ContactoForm, LineaPedidoForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from django.urls import reverse
 
 
@@ -18,13 +18,16 @@ def home(request, template_name="index_shop.html"):
             nombre = request.POST.get('nombre')
             email = request.POST.get('email')
             texto = request.POST.get('texto')
+            try:
+                send_mail(
+                    'Mensaje de ' + nombre,             #subject
+                    texto,                              #messaje
+                    email,                              #from
+                    ['sebastian.adorsch@gmail.com'],    #to
+                )
+            except BadHeaderError:
+                return HttpResponse('Invalid email error')
 
-            send_mail(
-                'Mensaje de ' + nombre,
-                texto,
-                email,
-                ['sebastian_dorsch@hotmail.com'],
-            )
             args.update({'nombre': nombre})
             return render(request, template_name, args)
     else:
