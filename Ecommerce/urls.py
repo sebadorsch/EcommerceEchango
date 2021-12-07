@@ -10,6 +10,6 @@ urlpatterns = [
     url('', include('Echango.urls')),
     path('usuarios/', include('django.contrib.auth.urls')),
     path('usuarios/', include('usuarios.urls')),
-    path('api/', include('api.urls')),
+    url('api/', include('api.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
