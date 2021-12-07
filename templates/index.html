@@ -73,7 +73,7 @@
               {% if user.is_authenticated %}
               <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">{{ user.username }}</a>
                 <ul class="dropdown-menu">
-                  <li><a href="{% url 'carrito' %}">Mi Carrito</a></li>
+                  <li><a href="{% url 'shop_checkout' %}">Mi Carrito</a></li>
                   <li><a href="{% url 'logout' %}">Salir</a></li>
                 </ul>
               </li>

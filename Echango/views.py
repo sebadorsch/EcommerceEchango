@@ -101,8 +101,8 @@ def shop_single_product(request, producto_id, template_name="shop_single_product
             comentario_form.save()
             return redirect(reverse('shop_single_product', kwargs={'producto_id': producto.id}))
         elif linea_pedido_form.is_valid():
-            linea_pedido_form.save()
-            return redirect(reverse(carrito))
+            new_linea_pedido = linea_pedido_form.save(commit=False)
+            return redirect(reverse('shop_checkout'))
     else:
         comentario_form = ComentarioForm(initial={'producto': producto})
         linea_pedido_form = LineaPedidoForm(initial={'carrito': carrito}, producto=producto)
@@ -122,7 +122,7 @@ def login_register(request, template_name):
     return render(request, template_name)
 
 
-def carrito(request, template_name='shop_checkout.html'):
+def shop_checkout(request, template_name='shop_checkout.html'):
     args = {}
     productos = Producto.objects.all().filter(publicado=True)
     args.update({'productos': productos})

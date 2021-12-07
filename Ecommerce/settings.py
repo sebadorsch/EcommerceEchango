@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'Echango',
     'usuarios',
     'sorl.thumbnail',
+    'api',
     #'django_filters',
 ]
 
