@@ -39,3 +39,44 @@ def get_user(request):
         return JsonResponse(data_response)
 
     return JsonResponse(data_response)
+
+
+def register_user(request):
+    from usuarios.forms import RegistroUsuarioForm
+
+    data_response = {
+        'status': 200,
+        'response': {}
+    }
+
+    if request.method == "POST":
+        print("entro")
+        try:
+            registro_usuario_form = RegistroUsuarioForm(username=request.username, password1=request.password,
+                                                        password2=request.password, nombre=request.nombre,
+                                                        apellido=request.apellido, email=request.email)
+
+            if registro_usuario_form.is_valid():
+                data_response = {
+                    'status': 200,
+                    'response': {
+                        'username': request.username,
+                        'email': request.email,
+                        'nombre': request.nombre,
+                        'apellido': request.apellido
+                    }
+                }
+
+        except:
+            data_response = {
+                'status': 400,
+                'response': {
+                    'Error cargando los parametros'
+                }
+            }
+
+        return JsonResponse(data_response)
+
+    else:
+
+        return "error"

@@ -7,7 +7,6 @@ from .forms import RegistroUsuarioForm #, LoginForm
 
 class RegistroUsuario(generic.CreateView):
     form_class = RegistroUsuarioForm
-    template_name = 'registration/registro.html'
     success_url = reverse_lazy('login')
 
 """
