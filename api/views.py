@@ -11,9 +11,7 @@ def get_user(request):
 
     data_response = {
         'status': 200,
-        'response':
-            {
-            }
+        'response': {}
     }
 
     try:
@@ -31,8 +29,6 @@ def get_user(request):
              'response':
                  {
                      'status': 403,
-                     'mensaje': 'Invalid UID',
-                     'causa': ['El UID del usuario no es valido'],
                      'error': 'Invalid UID'
                  }
              }
@@ -40,6 +36,44 @@ def get_user(request):
 
     return JsonResponse(data_response)
 
+
+def get_producto(request):
+    from Echango.models import Producto
+
+    data_response = {
+        'status': 200,
+        'response': {}
+    }
+
+    try:
+        pid = request.GET.get('pid')
+        producto = Producto.objects.get(pk=pid)
+
+        data_response['response'].update(
+            {
+                'titulo': producto.titulo,
+                'genero': producto.genero,
+                'categoria': producto.categoria,
+                'marca': producto.marca,
+                'color': producto.color,
+                'precio': producto.precio,
+                'fecha_publicacion': producto.titulo,
+                'hora_publicacion': producto.titulo
+            }
+        )
+
+    except:
+        data_response = {
+            'status': 403,
+            'response':
+                {
+                    'status': 403,
+                    'error': 'Invalid PID'
+                }
+        }
+        return JsonResponse(data_response)
+
+    return JsonResponse(data_response)
 
 def register_user(request):
     from usuarios.forms import RegistroUsuarioForm
