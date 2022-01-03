@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'usuarios',
     'sorl.thumbnail',
     'api',
-    #'django_filters',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

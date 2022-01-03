@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 
 
@@ -47,7 +47,7 @@ def get_producto(request):
 
     try:
         pid = request.GET.get('pid')
-        producto = Producto.objects.get(pk=pid)
+        producto = get_object_or_404(Producto, pk=pid)
 
         data_response['response'].update(
             {
@@ -61,6 +61,35 @@ def get_producto(request):
                 'hora_publicacion': producto.titulo
             }
         )
+
+    except:
+        data_response = {
+            'status': 403,
+            'response':
+                {
+                    'status': 403,
+                    'error': 'Invalid PID'
+                }
+        }
+        return JsonResponse(data_response)
+
+    return JsonResponse(data_response)
+
+
+def get_productos(request):
+    from Echango.models import Producto
+
+    data_response = {
+        'status': 200,
+        'response': {}
+    }
+
+    try:
+        productos = Producto.objects.all()
+        data_response = {'status': 200,
+                        "response": list(productos.values("titulo", "genero", "categoria",
+                                                          "marca", "color", "precio",
+                                                          "fecha_publicacion", "hora_publicacion"))}
 
     except:
         data_response = {
