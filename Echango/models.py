@@ -81,13 +81,24 @@ class Comentario(models.Model):
 
 
 class Carrito(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
+
+    def total(self):
+        lineas_pedidos = LineaPedido.objects.all().filter(carrito=self.id)
+        total = 0.0
+        for lp in lineas_pedidos:
+            total += int(lp.cantidad * lp.producto_talle.producto.precio)
+        return total
+
 
 
 class LineaPedido(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
     producto_talle = models.ForeignKey(ProductoTalle, models.CASCADE)
     cantidad = models.IntegerField()
+    #subtotal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+
 
 
