@@ -1,20 +1,27 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from api import serializers
 
 
 def api_home(request, template_name='index_api.html'):
     return render(request, template_name)
 
 
-def get_user(request):
-    from django.contrib.auth.models import User
+class User(APIView):
+    """API View de Usuario"""
 
-    data_response = {
-        'status': 200,
-        'response': {}
-    }
+    def get(self, request):
+        """ Retornar Usuario segun id """
+        from django.contrib.auth.models import User
 
-    try:
+        data_response = {
+            'status': 200,
+            'response': {}
+        }
+
         uid = request.GET.get('uid')
         usuario = User.objects.get(pk=uid)
         data_response['response'].update(
@@ -23,123 +30,113 @@ def get_user(request):
             }
         )
 
-    except:
-        data_response = {
-            'status': 403,
-             'response':
-                 {
-                     'status': 403,
-                     'error': 'Invalid UID'
-                 }
-             }
-        return JsonResponse(data_response)
-
-    return JsonResponse(data_response)
+        return Response(data_response)
 
 
-def get_producto(request):
-    from Echango.models import Producto
+class RegistroUsuario(APIView):
+    """API View para registrar Usuario"""
+    serializers_class = serializers.RegisterUser
 
-    data_response = {
-        'status': 200,
-        'response': {}
-    }
+    def post(self, request, status=None):
+        """ Registrar Usuario segund datos pasados por request """
+        from usuarios.forms import RegistroUsuarioForm
 
-    try:
-        pid = request.GET.get('pid')
-        producto = get_object_or_404(Producto, pk=pid)
+        serializer = self.serializers_class(data=request.data)
 
-        data_response['response'].update(
-            {
-                'titulo': producto.titulo,
-                'genero': producto.genero,
-                'categoria': producto.categoria,
-                'marca': producto.marca,
-                'color': producto.color,
-                'precio': producto.precio,
-                'fecha_publicacion': producto.titulo,
-                'hora_publicacion': producto.titulo
+        if serializer.is_valid():
+            email = serializer.validated_data.get('email')
+            nombre = serializer.validated_data.get('nombre')
+            apellido = serializer.validated_data.get('apellido')
+
+            data_response = {
+                'status': 200,
+                'response': {
+                    'email': email,
+                    'nombre': nombre,
+                    'apellido': apellido,
+                }
             }
-        )
+        else:
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-    except:
+        return Response(data_response)
+
+
+class Producto(APIView):
+    """API View de Producto"""
+
+    def get(self, request, format=None):
+        """Retornar un Producto"""
+        from Echango.models import Producto
+
         data_response = {
-            'status': 403,
-            'response':
-                {
-                    'status': 403,
-                    'error': 'Invalid PID'
-                }
+            'status': 200,
+            'response': {}
         }
-        return JsonResponse(data_response)
-
-    return JsonResponse(data_response)
-
-
-def get_productos(request):
-    from Echango.models import Producto
-
-    data_response = {
-        'status': 200,
-        'response': {}
-    }
-
-    try:
-        productos = Producto.objects.all()
-        data_response = {'status': 200,
-                        "response": list(productos.values("titulo", "genero", "categoria",
-                                                          "marca", "color", "precio",
-                                                          "fecha_publicacion", "hora_publicacion"))}
-
-    except:
-        data_response = {
-            'status': 403,
-            'response':
-                {
-                    'status': 403,
-                    'error': 'Invalid PID'
-                }
-        }
-        return JsonResponse(data_response)
-
-    return JsonResponse(data_response)
-
-def register_user(request):
-    from usuarios.forms import RegistroUsuarioForm
-
-    data_response = {
-        'status': 200,
-        'response': {}
-    }
-
-    if request.method == "POST":
-        print("entro")
         try:
-            registro_usuario_form = RegistroUsuarioForm(username=request.username, password1=request.password,
-                                                        password2=request.password, nombre=request.nombre,
-                                                        apellido=request.apellido, email=request.email)
+            pid = request.GET.get('pid')
+            producto = get_object_or_404(Producto, pk=pid)
 
-            if registro_usuario_form.is_valid():
-                data_response = {
-                    'status': 200,
-                    'response': {
-                        'username': request.username,
-                        'email': request.email,
-                        'nombre': request.nombre,
-                        'apellido': request.apellido
-                    }
+            data_response['response'].update(
+                {
+                    'titulo': producto.titulo,
+                    'genero': producto.genero,
+                    'categoria': producto.categoria,
+                    'marca': producto.marca,
+                    'color': producto.color,
+                    'precio': producto.precio,
+                    'fecha_publicacion': producto.titulo,
+                    'hora_publicacion': producto.titulo
                 }
+            )
+        except:
+            data_response = {
+                'status': 403,
+                'response':
+                    {
+                        'status': 403,
+                        'error': 'Invalid PID'
+                    }
+            }
+            return Response(data_response)
+
+        return Response(data_response)
+
+
+class Productos(APIView):
+    """API View de Productos"""
+
+    def get(self, request, format=None):
+        """Retornar una lista de todos los Productos"""
+        from Echango.models import Producto
+
+        data_response = {
+            'status': 200,
+            'response': {}
+        }
+        try:
+            productos = Producto.objects.all()
+            data_response = {'status': 200,
+                            "response": list(productos.values("titulo", "genero", "categoria",
+                                                              "marca", "color", "precio",
+                                                              "fecha_publicacion", "hora_publicacion"))}
 
         except:
             data_response = {
-                'status': 400,
-                'response': {
-                    'Error cargando los parametros'
-                }
+                'status': 403,
+                'response':
+                    {
+                        'status': 403,
+                        'error': 'Invalid PID'
+                    }
             }
+            return Response(data_response)
 
-        return JsonResponse(data_response)
+        return Response(data_response)
 
-    else:
 
-        return "error"
+
+
