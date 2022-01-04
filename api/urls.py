@@ -1,12 +1,12 @@
 from django.conf.urls import url
-from django.http import JsonResponse
-from api.views import api_home, User, RegistroUsuario, Productos, Producto
+
+from api.views import api_home
+from api.views import ProductoList, ComentarioList, ProductoTalleList, UserList
 
 urlpatterns = [
     url(r'^$', api_home, name='api_home'),
-    url(r'user/get', User.as_view(), name="get_user"),
-    url(r'user/register', RegistroUsuario.as_view(), name="register_user"),
-    url(r'productos', Productos.as_view(), name="get_productos"),
-    url(r'producto', Producto.as_view(), name="get_producto"),
-
+    url(r'productos', ProductoList.as_view(), name="get_productos"),
+    url(r'comentarios', ComentarioList.as_view(), name="get_comentario"),
+    url(r'producto-talle', ProductoTalleList.as_view(), name="get_producto_talle"),
+    url(r'users', UserList.as_view(), name="user_list"),
 ]

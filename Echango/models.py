@@ -92,7 +92,6 @@ class Carrito(models.Model):
         return total
 
 
-
 class LineaPedido(models.Model):
     carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
     producto_talle = models.ForeignKey(ProductoTalle, models.CASCADE)
