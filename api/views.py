@@ -46,3 +46,12 @@ class UserList(generics.ListCreateAPIView):
 
     serializer_class = UserSerializer
     queryset = umodels.User.objects.all()
+
+
+class UserCreate(generics.CreateAPIView):
+    """ Crear Usuario """
+
+    serializer_class = UserSerializer
+
+
+

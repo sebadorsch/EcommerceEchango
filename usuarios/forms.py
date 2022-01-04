@@ -10,14 +10,13 @@ class RegistroUsuarioForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'nombre', 'apellido', 'email', 'password1', 'password2')
+        fields = ('username', 'nombre', 'apellido', 'email', 'password')
 
     def __init__(self, *args, **kwargs):
         super(RegistroUsuarioForm, self).__init__(*args, **kwargs)
 
         self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['password1'].widget.attrs['class'] = 'form-control'
-        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['password'].widget.attrs['class'] = 'form-control'
 
 
 """
