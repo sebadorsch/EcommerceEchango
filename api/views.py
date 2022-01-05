@@ -41,17 +41,14 @@ class ProductoTalleList(generics.ListCreateAPIView):
     serializer_class = ProductoTalleSerializer
 
 
-class UserList(generics.ListCreateAPIView):
-    """ Listar Usuarios """
-
-    serializer_class = UserSerializer
-    queryset = umodels.User.objects.all()
-
-
 class UserCreate(generics.CreateAPIView):
     """ Crear Usuario """
 
     serializer_class = UserSerializer
 
 
+class UserList(generics.ListAPIView):
+    """ Listar Usuarios """
 
+    serializer_class = UserSerializer
+    queryset = umodels.User.objects.all()

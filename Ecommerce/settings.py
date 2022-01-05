@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'api',
     'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,11 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'sebastian.adorsch@gmail.com'
 EMAIL_HOST_PASSWORD = '***************'
 EMAIL_USE_TLS = True
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
