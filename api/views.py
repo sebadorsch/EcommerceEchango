@@ -2,10 +2,13 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from Echango import models
 from usuarios import models as umodels
+from api import permissions
 
-from rest_framework import generics, status
+from rest_framework import generics, status, filters
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.authentication import TokenAuthentication
 
 from .serializers import ProductoSerializer, ComentarioSerializer, ProductoTalleSerializer, UserSerializer
 
@@ -67,3 +70,16 @@ class UserList(generics.ListAPIView):
 
     serializer_class = UserSerializer
     queryset = umodels.User.objects.all()
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """ CRUD Usuario """
+
+    # authentication_classes = ()
+    # permission_classes = ()
+    serializer_class = UserSerializer
+    queryset = umodels.User.objects.all()
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (permissions.UpdateOwnProfile, )
+    filter_backends = (filters.SearchFilter, )
+    search_fields = ('username', 'email')
