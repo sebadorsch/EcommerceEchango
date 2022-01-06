@@ -71,7 +71,7 @@
             <ul class="nav navbar-nav navbar-right">
               <li><a href="{% url 'shop_product_col_3' %}">Productos</a></li>
               {% if user.is_authenticated %}
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">{{ user.username }}</a>
+              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">{{ user.nombre }}</a>
                 <ul class="dropdown-menu">
                   <li><a href="{% url 'shop_checkout' %}">Mi Carrito</a></li>
                   <li><a href="{% url 'logout' %}">Salir</a></li>

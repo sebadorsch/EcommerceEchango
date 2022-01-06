@@ -1,10 +1,10 @@
 from django.urls import path, include
 
-from api.views import ProductoList, ComentarioList, ProductoTalleList, UserCreate, UserList, LoginView, UserViewSet, UserLoginApiView
+from api.views import ProductoList, ComentarioList, ProductoTalleList, UserCreate, UserList, LoginView, UserProfileViewSet, UserLoginApiView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register('user', UserViewSet, basename='user')
+router.register('user', UserProfileViewSet, basename='user')
 
 urlpatterns = [
     path(r'comentarios', ComentarioList.as_view(), name="get_comentario"),
