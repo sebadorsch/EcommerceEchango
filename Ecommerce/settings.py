@@ -144,4 +144,4 @@ REST_FRAMEWORK = {
     )
 }
 
-# AUTH_USER_MODEL = 'usuarios.User'
+AUTH_USER_MODEL = 'usuarios.UserProfile'

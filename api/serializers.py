@@ -1,8 +1,9 @@
 from Echango.models import Producto, ProductoTalle, Comentario
-from usuarios.models import User
+from usuarios.models import UserProfile
 
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
+
 
 
 class ComentarioSerializer(serializers.ModelSerializer):
@@ -48,14 +49,13 @@ class UserSerializer(serializers.ModelSerializer):
     """ Serializa el objecto User """
 
     class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password')
+        model = UserProfile
+        fields = ('id', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = User(
+        user = UserProfile(
             email=validated_data['email'],
-            username=validated_data['username']
         )
         user.set_password(validated_data['password'])
         user.save()
