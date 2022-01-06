@@ -1,10 +1,14 @@
 from django.shortcuts import render
-
-from rest_framework import generics
-
-from .serializers import ProductoSerializer, ComentarioSerializer, ProductoTalleSerializer, UserSerializer
+from django.contrib.auth import authenticate
 from Echango import models
 from usuarios import models as umodels
+
+from rest_framework import generics, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .serializers import ProductoSerializer, ComentarioSerializer, ProductoTalleSerializer, UserSerializer
+
 
 """
 Use viewsets.ModelViewSet when you are going to allow all or most of CRUD operations on a model.
@@ -13,15 +17,24 @@ Use APIView when you want to completely customize the behaviour.
 """
 
 
-def api_home(request, template_name='index_api.html'):
-    return render(request, template_name)
-
-
 class ComentarioList(generics.ListCreateAPIView):
     """ Crear y actualizar Comentarios """
 
     serializer_class = ComentarioSerializer
     queryset = models.Comentario.objects.all()
+
+
+class LoginView(APIView):
+    permission_classes = ()
+
+    def post(self, request,):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(username=username, password=password)
+        if user:
+            return Response({"token": user.auth_token.key})
+        else:
+            return Response({"error": "Wrong Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProductoList(generics.ListCreateAPIView):
@@ -44,6 +57,8 @@ class ProductoTalleList(generics.ListCreateAPIView):
 class UserCreate(generics.CreateAPIView):
     """ Crear Usuario """
 
+    authentication_classes = ()
+    permission_classes = ()
     serializer_class = UserSerializer
 
 

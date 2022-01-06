@@ -1,6 +1,8 @@
-from rest_framework import serializers
 from Echango.models import Producto, ProductoTalle, Comentario
 from usuarios.models import User
+
+from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 
 class ComentarioSerializer(serializers.ModelSerializer):
@@ -57,4 +59,5 @@ class UserSerializer(serializers.ModelSerializer):
         )
         user.set_password(validated_data['password'])
         user.save()
+        Token.objects.create(user=user)
         return user
