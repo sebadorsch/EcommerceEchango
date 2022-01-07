@@ -60,20 +60,20 @@ class ProductoTalleList(generics.ListCreateAPIView):
     serializer_class = ProductoTalleSerializer
 
 
-class UserCreate(generics.CreateAPIView):
-    """ Crear Usuario """
+# class UserCreate(generics.CreateAPIView):
+#     """ Crear Usuario """
+#
+#     authentication_classes = ()
+#     permission_classes = [permissions.UpdateOwnProfile]
+#     serializer_class = UserSerializer
 
-    authentication_classes = ()
-    permission_classes = ()
-    serializer_class = UserSerializer
 
-
-class UserList(generics.ListAPIView):
-    """ Listar Usuarios """
-
-    serializer_class = UserSerializer
-    queryset = umodels.UserProfile.objects.all()
-    permission_classes = [IsAuthenticatedOrReadOnly]
+# class UserList(generics.ListAPIView):
+#     """ Listar Usuarios """
+#
+#     serializer_class = UserSerializer
+#     queryset = umodels.UserProfile.objects.all()
+#     permission_classes = [permissions.UpdateOwnProfile]
 
 
 class UserLoginApiView(ObtainAuthToken):
@@ -88,7 +88,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     # permission_classes = ()
     serializer_class = UserSerializer
     queryset = umodels.UserProfile.objects.all()
-    authentication_classes = (TokenAuthentication, )
-    permission_classes = (permissions.UpdateOwnProfile, )
+    # authentication_classes = (TokenAuthentication, )
+    # permission_classes = (permissions.UpdateOwnProfile, )
+    permission_classes = [permissions.UpdateOwnProfile, IsAuthenticatedOrReadOnly]
     filter_backends = (filters.SearchFilter, )
     search_fields = ('email')
