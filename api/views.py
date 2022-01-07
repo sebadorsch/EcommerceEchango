@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 from Echango import models
 from usuarios import models as umodels
 from api import permissions
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from rest_framework import generics, status, filters
 from rest_framework import viewsets
@@ -72,6 +73,7 @@ class UserList(generics.ListAPIView):
 
     serializer_class = UserSerializer
     queryset = umodels.UserProfile.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class UserLoginApiView(ObtainAuthToken):
