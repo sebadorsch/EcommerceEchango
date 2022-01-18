@@ -21,7 +21,7 @@ class UserProfileManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, nombre, apellido, password):
-        """ Crear nuevo SuperUser"""
+        """ Crear nuevo Superusuario"""
         user = self.create_user(email, nombre, apellido, password)
 
         user.is_superuser = True
