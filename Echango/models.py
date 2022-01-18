@@ -72,7 +72,7 @@ class Comentario(models.Model):
     producto = models.ForeignKey(Producto, related_name="comentarios", on_delete=models.CASCADE)
     nombre = models.CharField(max_length=255, null=True, blank=True)
     apellido = models.CharField(max_length=255, null=True, blank=True)
-    email = models.EmailField(max_length=255, null=True, blank=True)
+    email = models.EmailField(max_length=255)
     texto = models.TextField()
     fechora = models.DateTimeField(auto_now_add=True)
 

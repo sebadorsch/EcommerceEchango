@@ -1,11 +1,12 @@
 from django.test import TestCase
-from .models import Producto, ProductoTalle
+from .models import Producto, ProductoTalle, Comentario
 
 
 class ModelTest(TestCase):
 
     def test_create_producto(self):
         """ Test para creacion de nuevo producto solo con el titulo """
+
         titulo = "camisaprueba"
 
         producto = Producto.objects.create(
@@ -16,6 +17,7 @@ class ModelTest(TestCase):
 
     def test_create_producto_completo(self):
         """ Test para creacion de nuevo producto con todos los campos """
+
         titulo = "camisaprueba"
         descripcion = "camisapruebacamisapruebacamisapruebacamisapruebacamisapruebacamisapruebacamisapruebacamisaprueba"
         genero = "unisex"
@@ -47,12 +49,10 @@ class ModelTest(TestCase):
 
     def test_create_new_productotalle(self):
         """ Test creacion nuevo ProductoTalle """
+
         titulo = "camisaprueba"
         talle = "Small"
-
-        producto = Producto.objects.create(
-            titulo=titulo
-        )
+        producto = Producto.objects.create(titulo=titulo)
 
         producto_talle = ProductoTalle.objects.create(
             producto=producto,
@@ -64,6 +64,7 @@ class ModelTest(TestCase):
 
     def test_create_new_productotalle_without_producto(self):
         """ Test creacion ProductoTalle con Producto relacionado inválido """
+
         producto = 1
         talle = "Small"
 
@@ -71,4 +72,34 @@ class ModelTest(TestCase):
             ProductoTalle.objects.create(
                 producto=producto,
                 talle=talle
+            )
+
+    def test_create_comentario(self):
+        """ Test creacion Comentario """
+
+        titulo = "camisaprueba"
+        producto = Producto.objects.create(titulo=titulo)
+        email = "test@test.com"
+        texto = "Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
+
+        comentario = Comentario.objects.create(
+            producto=producto,
+            email=email,
+            texto=texto
+        )
+        self.assertEqual(comentario.producto, producto)
+        self.assertEqual(comentario.email, email)
+        self.assertEqual(comentario.texto, texto)
+
+    def test_create_comentario_without_producto(self):
+        """ Test creacion Comentario sin producto relacionado """
+
+        email = "test@test.com"
+        texto = "Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
+
+        with self.assertRaises(ValueError):
+            Comentario.objects.create(
+                producto=1,
+                email=email,
+                texto=texto
             )
