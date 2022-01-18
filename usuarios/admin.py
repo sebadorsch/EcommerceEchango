@@ -1,4 +1,13 @@
 from django.contrib import admin
-from .models import UserProfile
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from usuarios import models
 
-admin.site.register(UserProfile)
+
+class UserAdmin(BaseUserAdmin):
+    ordering = ['id']
+    list_display = ['email', 'nombre', 'apellido']
+
+
+admin.site.register(models.UserProfile, UserAdmin)
+
+# admin.site.register(UserAdmin)

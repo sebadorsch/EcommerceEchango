@@ -1,5 +1,6 @@
 from django.test import TestCase
-from .models import Producto, ProductoTalle, Comentario
+from django.contrib.auth import get_user_model
+from .models import Producto, ProductoTalle, Comentario, Carrito, LineaPedido
 
 
 class ModelTest(TestCase):
@@ -47,7 +48,7 @@ class ModelTest(TestCase):
         self.assertEqual(producto.precio, precio)
         self.assertEqual(producto.publicado, publicado)
 
-    def test_create_new_productotalle(self):
+    def test_create_productotalle(self):
         """ Test creacion nuevo ProductoTalle """
 
         titulo = "camisaprueba"
@@ -62,8 +63,8 @@ class ModelTest(TestCase):
         self.assertEqual(producto_talle.producto, producto)
         self.assertEqual(producto_talle.talle, talle)
 
-    def test_create_new_productotalle_without_producto(self):
-        """ Test creacion ProductoTalle con Producto relacionado inválido """
+    def test_create_productotalle_without_producto(self):
+        """ Test creacion ProductoTalle con valor Producto relacionado inválido """
 
         producto = 1
         talle = "Small"
@@ -92,7 +93,7 @@ class ModelTest(TestCase):
         self.assertEqual(comentario.texto, texto)
 
     def test_create_comentario_without_producto(self):
-        """ Test creacion Comentario sin producto relacionado """
+        """ Test creacion Comentario con valor Producto relacionado inválido """
 
         email = "test@test.com"
         texto = "Lorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum"
@@ -103,3 +104,71 @@ class ModelTest(TestCase):
                 email=email,
                 texto=texto
             )
+
+    def test_create_carrito(self):
+        """ Test creacion Carrito """
+
+        email = 'test@prueba.com'
+        password = 'Testpass123'
+        nombre = 'nombreprueba'
+        apellido = 'apellidoprueba'
+        usuario = get_user_model().objects.create_user(
+            email=email,
+            password=password,
+            nombre=nombre,
+            apellido=apellido
+        )
+
+        activo = False
+
+        carrito = Carrito.objects.create(
+            usuario=usuario,
+            activo=activo
+        )
+
+        self.assertEqual(carrito.usuario, usuario)
+        self.assertEqual(carrito.activo, activo)
+
+    def test_create_carrito_without_user(self):
+        """ Test crear Carrito con valor Usuario relacionado inválido """
+
+        with self.assertRaises(ValueError):
+            Carrito.objects.create(usuario=1)
+
+    def test_create_linea_pedido(self):
+        """ Test crear LineaPedido """
+
+        email = 'test@prueba.com'
+        password = 'Testpass123'
+        nombre = 'nombreprueba'
+        apellido = 'apellidoprueba'
+        usuario = get_user_model().objects.create_user(
+            email=email,
+            password=password,
+            nombre=nombre,
+            apellido=apellido
+        )
+        carrito = Carrito.objects.create(
+            usuario=usuario
+        )
+
+        titulo = "camisaprueba"
+        producto = Producto.objects.create(
+            titulo=titulo
+        )
+
+        talle = "Small"
+        producto_talle = ProductoTalle.objects.create(
+            producto=producto,
+            talle=talle)
+
+        cantidad = 20
+        linea_pedido = LineaPedido.objects.create(
+            carrito=carrito,
+            producto_talle=producto_talle,
+            cantidad=cantidad
+        )
+
+        self.assertEqual(linea_pedido.carrito, carrito)
+        self.assertEqual(linea_pedido.producto_talle, producto_talle)
+        self.assertEqual(linea_pedido.cantidad, cantidad)

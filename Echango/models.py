@@ -81,7 +81,7 @@ class Comentario(models.Model):
 
 
 class Carrito(models.Model):
-    usuario = models.ForeignKey(UserProfile, null=True, blank=True, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
 
     def total(self):
