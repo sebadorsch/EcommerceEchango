@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Producto
+from .models import Producto, ProductoTalle
 
 
 class ModelTest(TestCase):
@@ -44,3 +44,31 @@ class ModelTest(TestCase):
         self.assertEqual(producto.color, color)
         self.assertEqual(producto.precio, precio)
         self.assertEqual(producto.publicado, publicado)
+
+    def test_create_new_productotalle(self):
+        """ Test creacion nuevo ProductoTalle """
+        titulo = "camisaprueba"
+        talle = "Small"
+
+        producto = Producto.objects.create(
+            titulo=titulo
+        )
+
+        producto_talle = ProductoTalle.objects.create(
+            producto=producto,
+            talle=talle
+        )
+
+        self.assertEqual(producto_talle.producto, producto)
+        self.assertEqual(producto_talle.talle, talle)
+
+    def test_create_new_productotalle_without_producto(self):
+        """ Test creacion ProductoTalle con Producto relacionado inválido """
+        producto = 1
+        talle = "Small"
+
+        with self.assertRaises(ValueError):
+            ProductoTalle.objects.create(
+                producto=producto,
+                talle=talle
+            )
