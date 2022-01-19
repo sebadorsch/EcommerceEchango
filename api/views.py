@@ -27,7 +27,6 @@ Use APIView when you want to completely customize the behaviour.
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def api_root(request, format=None):
     return Response({
         'login': reverse('api_login', request=request, format=format),
@@ -94,7 +93,7 @@ class ProductosTalleList(generics.ListCreateAPIView):
 #     """ Listar Usuarios """
 #
 #     serializer_class = UserSerializer
-#     queryset = umodels.UserProfile.objects.all()
+#     queryset = umodels.User.objects.all()
 #     permission_classes = [permissions.UpdateOwnProfile]
 
 
@@ -103,15 +102,14 @@ class UserLoginApiView(ObtainAuthToken):
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES
 
 
-class UserProfileViewSet(viewsets.ReadOnlyModelViewSet):
+class UserViewSet(viewsets.ModelViewSet):
     """ CRUD Usuario """
 
     # authentication_classes = ()
     # permission_classes = ()
     serializer_class = UserSerializer
-    queryset = umodels.UserProfile.objects.all()
+    queryset = umodels.User.objects.all()
     # authentication_classes = (TokenAuthentication, )
-    # permission_classes = (permissions.UpdateOwnProfile, )
-    permission_classes = [permissions.UpdateOwnProfile, IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.UpdateOwnProfile]
     filter_backends = (filters.SearchFilter, )
     search_fields = 'email'

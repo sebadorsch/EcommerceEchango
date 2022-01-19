@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='carrito',
             name='usuario',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='usuarios.userprofile'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='usuarios.user'),
             preserve_default=False,
         ),
     ]

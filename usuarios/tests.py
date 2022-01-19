@@ -93,15 +93,9 @@ class AdminSiteTests(TestCase):
     def test_users_listed(self):
         """ Test para verificar que los Usuarios sean enlistados en la pagina de usuario """
 
-        url = reverse('admin:usuarios_userprofile_changelist')
+        url = reverse('admin:usuarios_user_changelist')
         res = self.client.get(url)
 
         self.assertContains(res, self.user.email)
         self.assertContains(res, self.user.nombre)
         self.assertContains(res, self.user.apellido)
-
-    def test_user_change_page(self):
-        """ Test que la pagina editada por el usuario funciona """
-
-        url = reverse('admin:usuarios_userprofile_change', args=[self.user.id])
-        res = self.client.get(url)

@@ -8,6 +8,6 @@ class UserAdmin(BaseUserAdmin):
     list_display = ['email', 'nombre', 'apellido']
 
 
-admin.site.register(models.UserProfile, UserAdmin)
+admin.site.register(models.User, UserAdmin)
 
 # admin.site.register(UserAdmin)

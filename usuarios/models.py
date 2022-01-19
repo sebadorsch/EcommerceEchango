@@ -4,11 +4,12 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 
 
-class UserProfileManager(BaseUserManager):
+class UserManager(BaseUserManager):
     """ Manager de la clase Usuario"""
 
     def create_user(self, email, nombre, apellido, password=None):
         """ Crear nuevo User"""
+
         if not email:
             raise ValueError('Usuario debe tener un email')
 
@@ -22,6 +23,7 @@ class UserProfileManager(BaseUserManager):
 
     def create_superuser(self, email, nombre, apellido, password):
         """ Crear nuevo Superusuario"""
+
         user = self.create_user(email, nombre, apellido, password)
 
         user.is_superuser = True
@@ -31,15 +33,16 @@ class UserProfileManager(BaseUserManager):
         return user
 
 
-class UserProfile(AbstractBaseUser, PermissionsMixin):
-    """ Modelo Base de Datos para Usuarios del sistema """
+class User(AbstractBaseUser, PermissionsMixin):
+    """ Modelo personalizado de Usuario para logear con email """
+
     email = models.EmailField(max_length=255, unique=True)
     nombre = models.CharField(max_length=255)
     apellido = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = UserProfileManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nombre', 'apellido']

@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm, UsernameField
-from usuarios.models import UserProfile
+from usuarios.models import User
 from django import forms
 
 
@@ -9,14 +9,16 @@ class RegistroUsuarioForm(UserCreationForm):
     apellido = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
-        model = UserProfile
+        model = User
         fields = ('nombre', 'apellido', 'email', 'password')
 
     def __init__(self, *args, **kwargs):
         super(RegistroUsuarioForm, self).__init__(*args, **kwargs)
 
-        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['email'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['class'] = 'form-control'
+        self.fields['nombre'].widget.attrs['class'] = 'form-control'
+        self.fields['apellido'].widget.attrs['class'] = 'form-control'
 
 
 """

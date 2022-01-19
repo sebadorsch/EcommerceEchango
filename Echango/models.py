@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from sorl.thumbnail import ImageField
-from usuarios.models import UserProfile
+from usuarios.models import User
 
 
 class Genero(models.TextChoices):
@@ -81,7 +81,7 @@ class Comentario(models.Model):
 
 
 class Carrito(models.Model):
-    usuario = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
 
     def total(self):
