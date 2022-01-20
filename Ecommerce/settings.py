@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'api',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'pwa'
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,24 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'usuarios.User'
+
+PWA_APP_NAME = "Echango"
+PWA_APP_DESCRIPTION = "E-commerce E-chango"
+PWA_APP_THEME_COLOR = "#0A0A0A"
+PWA_APP_BACKGROUND_COLOR = "#0A0A0A"
+
+PWA_APP_ICONS = [
+    {
+        "src": "templates/static/assets/images/favicons/favicon-96x96.png",
+        "sizes": "96x96"
+    }
+]
+
+PWA_APP_ICONS_APPLE = [
+    {
+        "src": "templates/static/assets/images/favicons/favicon-96x96.png",
+        "sizes": "96x96"
+    }
+]
+
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, "serviceworker.js")

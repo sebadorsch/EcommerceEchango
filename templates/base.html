@@ -55,6 +55,11 @@
     <!-- Main stylesheet and color file-->
     <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
     <link id="color-scheme" href="{% static 'assets/css/colors/default.css' %}" rel="stylesheet">
+
+    {% load pwa %}
+
+    {% progressive_web_app_meta %}
+
   </head>
 
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
@@ -223,7 +228,7 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-6">
-            <p class="copyright font-alt">&copy; 2021&nbsp;<a href="index.html">E-Chango</a>, Todos los derechos reservados</p>
+            <p class="copyright font-alt">&copy; 2021&nbsp;<a href="base.html">E-Chango</a>, Todos los derechos reservados</p>
           </div>
           <div class="col-sm-6">
             <div class="footer-social-links"><a href="#"><i class="fa fa-facebook"></i></a><a href="#"><i class="fa fa-twitter"></i></a><a href="#"><i class="fa fa-dribbble"></i></a><a href="#"><i class="fa fa-skype"></i></a>
